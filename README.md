@@ -2,6 +2,12 @@
 
 Search the full text of your [Hister](https://hister.org/) browsing archive from [Keystroke](https://github.com/evindor/keystroke), the Omarchy command launcher.
 
+<p align="center">
+  <img src="assets/demo.gif" alt="Animated Keystroke demo searching a dummy Hister archive for Linux, keyboard tips, and sourdough recipes, then selecting results and showing the Copy URL shortcut" width="720">
+  <br>
+  <sub>Real Keystroke interface · fictional pages and searches · no personal browsing data</sub>
+</p>
+
 ```text
 hister linux thunderbolt
 ```
@@ -75,6 +81,16 @@ Keystroke's own extension checker can also validate this checkout:
 An optional GitHub Actions workflow is provided at `ci/github-actions.yml`. Copy it to `.github/workflows/tests.yml` to enable CI; publishing an active workflow through an OAuth login requires the GitHub `workflow` permission.
 
 Tests use synthetic public example.com data. Do not use a personal archive, credentials, screenshots, or results as fixtures. See [AGENTS.md](AGENTS.md) for maintenance rules.
+
+### Regenerate the demo
+
+The README GIF renders the real palette offscreen against a dummy HTTP server. It does not record the desktop or connect to a personal Hister instance. Requires Quickshell, Omarchy, a Keystroke checkout, and FFmpeg:
+
+```bash
+python3 tools/render-demo.py
+# Or point it at another Keystroke checkout:
+python3 tools/render-demo.py --keystroke /path/to/keystroke
+```
 
 ## License
 
