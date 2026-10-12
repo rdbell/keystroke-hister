@@ -152,11 +152,15 @@ ShellRoot {
             if "PASS demo" not in output or "FAIL" in output:
                 raise SystemExit(output)
             args.output.parent.mkdir(parents=True, exist_ok=True)
+            wallpaper = work / "wallpaper.png"
+            subprocess.run(["rsvg-convert", "-o", str(wallpaper),
+                            str(ROOT / "assets/demo-wallpaper.svg")], check=True)
             subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-framerate", "10",
+                            "-loop", "1", "-i", str(wallpaper), "-framerate", "10",
                             "-i", str(frames / "%04d.png"), "-filter_complex",
-                            "pad=720:620:(ow-iw)/2:(oh-ih)/2:color=0x101217,split[a][b];"
-                            "[a]palettegen=max_colors=128:reserve_transparent=0[p];"
-                            "[b][p]paletteuse=dither=bayer:bayer_scale=3",
+                            "[0:v][1:v]overlay=(W-w)/2:(H-h)/2:shortest=1,split[a][b];"
+                            "[a]palettegen=max_colors=256:reserve_transparent=0[p];"
+                            "[b][p]paletteuse=dither=bayer:bayer_scale=4",
                             "-loop", "0", str(args.output)], check=True)
             # One representative still for the author's visual review, outside the repo.
             shutil.copy2(frames / "0020.png", "/tmp/keystroke-hister-demo-review.png")
